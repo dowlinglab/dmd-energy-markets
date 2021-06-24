@@ -13,7 +13,7 @@
 To install the repository you will need to install from source. To do this, download the repository from github and use the `pip` package manage to install the library.
 
 ```
-curl ...
+wget -r https://github.com/dowlinglab/dmd-energy-markets
 pip install dmd-energy-markets
 ```
 
