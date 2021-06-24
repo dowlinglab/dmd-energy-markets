@@ -19,7 +19,7 @@ pip install dmd-energy-markets
 
 ## Example Notebooks
 
-* link - Decomposition
+* [Example Decomposition](https://github.com/dowlinglab/dmd-energy-markets/blob/master/ExampleNotebooks/Base-DMD-Decomposition.ipynb)
 * link - DMD Forecast
 * link - ADMD Forecast
 * link - Battery Optimization
