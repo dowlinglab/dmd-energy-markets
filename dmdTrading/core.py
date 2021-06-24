@@ -3,7 +3,36 @@ from scipy import linalg as la
 from cmath import exp
 import matplotlib.pyplot as plt
 
-from dmdTrading.utils import Manipulate
+
+def split(Xf, verbose=False):
+    '''
+    This function will perform a crutical manipulation for DMD
+    which is the splitting of a spacial-temporal matrix (Xf) into
+    two matrices (X and Xp). The X matrix is the time series for
+    1 to n-1 and Xp is the time series of 2 to n where n is the
+    number of time intervals (columns of the original Xf).
+    input:
+    Xf - matrix of full spacial-temporal data
+    output:
+    X - matrix for times 1 to n-1
+    Xp - matrix for times 2 to n
+    options:
+    verbose - boolean for visualization of splitting
+    '''
+
+    if verbose:
+        print('Entering the matrix splitting function:')
+
+    if verbose:
+        print('Xf =\n', Xf, '\n')
+
+    X = Xf[:, :-1]
+    Xp = Xf[:, 1:]
+
+    if verbose:
+        print('X =\n', X, '\n')
+        print('Xp =\n', Xp, '\n')
+    return X, Xp
 
 
 class DMD:
@@ -70,7 +99,7 @@ class DMD:
 
         # --- (1) --- #
         # split the Xf matrix
-        X, Xp = Manipulate.split(Xf)
+        X, Xp = split(Xf)
         if verbose:
             print('X = \n', X, '\n')
             print('X` = \n', Xp, '\n')
@@ -79,7 +108,7 @@ class DMD:
         # perform a singular value decompostion on X
         if do_SVD:
             if verbose:
-                'Performing singular value decompostion...\n'
+                'Performing singular value decomposition...\n'
             U, S, Vh = la.svd(X)
         else:
             if verbose:
@@ -260,7 +289,7 @@ class DMD:
         input data is and return the outputs for scipy.
         '''
 
-        X, Xp = Manipulate.split(Xf)
+        X, Xp = split(Xf)
         result = la.svd(X)
 
         return result
