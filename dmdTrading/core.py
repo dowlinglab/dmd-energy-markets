@@ -3,7 +3,36 @@ from scipy import linalg as la
 from cmath import exp
 import matplotlib.pyplot as plt
 
-from dmdTrading.utils import Manipulate
+
+def split(Xf, verbose=False):
+    '''
+    This function will perform a crutical manipulation for DMD
+    which is the splitting of a spacial-temporal matrix (Xf) into
+    two matrices (X and Xp). The X matrix is the time series for
+    1 to n-1 and Xp is the time series of 2 to n where n is the
+    number of time intervals (columns of the original Xf).
+    input:
+    Xf - matrix of full spacial-temporal data
+    output:
+    X - matrix for times 1 to n-1
+    Xp - matrix for times 2 to n
+    options:
+    verbose - boolean for visualization of splitting
+    '''
+
+    if verbose:
+        print('Entering the matrix splitting function:')
+
+    if verbose:
+        print('Xf =\n', Xf, '\n')
+
+    X = Xf[:, :-1]
+    Xp = Xf[:, 1:]
+
+    if verbose:
+        print('X =\n', X, '\n')
+        print('Xp =\n', Xp, '\n')
+    return X, Xp
 
 
 class DMD:
@@ -70,7 +99,7 @@ class DMD:
 
         # --- (1) --- #
         # split the Xf matrix
-        X, Xp = Manipulate.split(Xf)
+        X, Xp = split(Xf)
         if verbose:
             print('X = \n', X, '\n')
             print('X` = \n', Xp, '\n')
@@ -79,7 +108,7 @@ class DMD:
         # perform a singular value decompostion on X
         if do_SVD:
             if verbose:
-                'Performing singular value decompostion...\n'
+                'Performing singular value decomposition...\n'
             U, S, Vh = la.svd(X)
         else:
             if verbose:
@@ -230,14 +259,14 @@ class DMD:
         return results()
 
     @staticmethod
-    def predict(dmd, t):
+    def predict(dmd_model, t):
         '''
         This function will take a DMD decomposition output
         result and a desired time incremint prediction and
         produce a prediction of the system at the given time.
 
         inputs:
-            * dmd - class that comes from the function "decomp"
+            * dmd_model - class that comes from the function "decomp"
             * t - future time for prediction
 
         outputs:
@@ -245,10 +274,10 @@ class DMD:
         '''
 
         # finally reconstruct the data matrix from the DMD modes
-        dynamics = np.zeros((DMD.rank, 1), dtype=np.complex_)
-        omg_p = np.array([exp(i * t) for i in DMD.omg])
-        dynamics = DMD.b * omg_p
-        x = np.real(np.dot(DMD.phi, dynamics))
+        dynamics = np.zeros((dmd_model.rank, 1), dtype=np.complex_)
+        omg_p = np.array([exp(i * t) for i in dmd_model.omg])
+        dynamics = dmd_model.b * omg_p
+        x = np.real(np.dot(dmd_model.phi, dynamics))
 
         return x
 
@@ -260,7 +289,7 @@ class DMD:
         input data is and return the outputs for scipy.
         '''
 
-        X, Xp = Manipulate.split(Xf)
+        X, Xp = split(Xf)
         result = la.svd(X)
 
         return result

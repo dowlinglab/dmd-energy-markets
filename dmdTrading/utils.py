@@ -1,45 +1,6 @@
 import numpy as np
 from scipy import linalg as la
-
 from dmdTrading.core import DMD
-
-class Manipulate:
-
-    '''
-    This class contains helpful functions for the specific matrix
-    manipulation needed for Dynamic Mode Decomposition.
-    '''
-
-    @staticmethod
-    def split(Xf, verbose=False):
-        '''
-        This function will perform a crutical manipulation for DMD
-        which is the splitting of a spacial-temporal matrix (Xf) into
-        two matrices (X and Xp). The X matrix is the time series for
-        1 to n-1 and Xp is the time series of 2 to n where n is the
-        number of time intervals (columns of the original Xf).
-        input:
-        Xf - matix of full spacial-temporal data
-        output:
-        X - matix for times 1 to n-1
-        Xp - matix for times 2 to n
-        options:
-        verbose - boolean for visualization of splitting
-        '''
-
-        if verbose:
-            print('Entering the matrix splitting function:')
-
-        if verbose:
-            print('Xf =\n', Xf, '\n')
-
-        X = Xf[:, :-1]
-        Xp = Xf[:, 1:]
-
-        if verbose:
-            print('X =\n', X, '\n')
-            print('Xp =\n', Xp, '\n')
-        return X, Xp
 
 
 class Energy:
@@ -71,7 +32,7 @@ class Energy:
         data = data.T
         data_norm = la.norm(data)
 
-        # initalize a list for the error values
+        # initialize a list for the error values
         end_error = []
 
         # loop through to find the error for each sv
