@@ -259,14 +259,14 @@ class DMD:
         return results()
 
     @staticmethod
-    def predict(dmd, t):
+    def predict(dmd_model, t):
         '''
         This function will take a DMD decomposition output
         result and a desired time incremint prediction and
         produce a prediction of the system at the given time.
 
         inputs:
-            * dmd - class that comes from the function "decomp"
+            * dmd_model - class that comes from the function "decomp"
             * t - future time for prediction
 
         outputs:
@@ -274,10 +274,10 @@ class DMD:
         '''
 
         # finally reconstruct the data matrix from the DMD modes
-        dynamics = np.zeros((DMD.rank, 1), dtype=np.complex_)
-        omg_p = np.array([exp(i * t) for i in DMD.omg])
-        dynamics = DMD.b * omg_p
-        x = np.real(np.dot(DMD.phi, dynamics))
+        dynamics = np.zeros((dmd_model.rank, 1), dtype=np.complex_)
+        omg_p = np.array([exp(i * t) for i in dmd_model.omg])
+        dynamics = dmd_model.b * omg_p
+        x = np.real(np.dot(dmd_model.phi, dynamics))
 
         return x
 
