@@ -4,9 +4,7 @@
 
 **PI**: [Alexander Dowling](https://dowlinglab.nd.edu/)
 
-**Publication**: Learning Spatiotemporal Dynamics in Wholesale Energy Markets with Dynamic Mode Decomposition
-* [science direct](https://www.sciencedirect.com/science/article/abs/pii/S0360544221012615)
-* [pre-print](https://engrxiv.org/wdg23/)
+**Publication**
 
 If you use this code, please cite our **paper**:
 
